@@ -15,20 +15,18 @@
 ## Instalación y ejecución  
 
 1. **Clonar el repositorio**  
-   git clone https://github.com/jordivelazq/kosmos-citas.git
-   cd kosmos-citas
+   - git clone https://github.com/jordivelazq/kosmos-citas.git
+   - cd kosmos-citas
    
 2. **Compilar y arrancar**  
-./mvnw clean package
-java -jar target/kosmos-0.0.1-SNAPSHOT.jar
+- ./mvnw clean package
+- java -jar target/kosmos-0.0.1-SNAPSHOT.jar
 
-3. **Compilar y arrancar**  
-Acceder desde el navegador
-Listado de citas: http://localhost:8080/citas
-Crear nueva cita: http://localhost:8080/citas/nuevo
-Editar cita: http://localhost:8080/citas/editar/{id}
-
-Consola H2: http://localhost:8080/h2-console
-JDBC URL: jdbc:h2:mem:db
-Usuario: sa
-Contraseña: (vacía)
+3. **Acceder desde el navegador**  
+   - Listado de citas: `http://localhost:8080/citas`  
+   - Crear nueva cita: `http://localhost:8080/citas/nuevo`  
+   - Editar cita: `http://localhost:8080/citas/editar/{id}`  
+   - Consola H2: `http://localhost:8080/h2-console`  
+     - **JDBC URL**: `jdbc:h2:mem:db`  
+     - **Usuario**: `sa`  
+     - **Contraseña**: (vacía)  
