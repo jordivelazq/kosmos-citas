@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Listado de Citas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="#">Sistema de Citas</a>
+      <div>
+        <a class="btn btn-light" th:href="@{/citas/nuevo}">+ Nueva Cita</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <form th:action="@{/citas}" method="get" class="row g-3 align-items-end">
+          <div class="col-md-3">
+            <label for="fechaFil" class="form-label">Fecha</label>
+            <input id="fechaFil" type="date" name="fecha" th:value="${fecha}" class="form-control"/>
+          </div>
+          <div class="col-md-3">
+            <label for="doctorFil" class="form-label">Doctor</label>
+            <select id="doctorFil" name="doctor" class="form-select">
+              <option value="">-- Todos --</option>
+              <option th:each="d: ${doctores}"
+                      th:value="${d.id}"
+                      th:text="${d.nombre} + ' ' + ${d.apellidoPaterno}"
+                      th:selected="${d.id} == ${doctor}">
+              </option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="consulFil" class="form-label">Consultorio</label>
+            <select id="consulFil" name="consultorio" class="form-select">
+              <option value="">-- Todos --</option>
+              <option th:each="c: ${consultorios}"
+                      th:value="${c.id}"
+                      th:text="'#' + ${c.numero} + ' (Piso ' + ${c.piso} + ')'"
+                      th:selected="${c.id} == ${consultorio}">
+              </option>
+            </select>
+          </div>
+          <div class="col-md-3 text-end">
+            <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="table-responsive shadow-sm">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Doctor</th>
+            <th>Consultorio</th>
+            <th>Paciente</th>
+            <th class="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="c : ${lista}">
+            <td th:text="${c.fecha}"></td>
+            <td th:text="${c.hora}"></td>
+            <td th:text="${c.doctor.nombre} + ' ' + ${c.doctor.apellidoPaterno}"></td>
+            <td th:text="${c.consultorio.numero}"></td>
+            <td th:text="${c.paciente}"></td>
+            <td class="text-center">
+              <a th:if="${T(java.time.LocalDateTime).of(c.fecha, c.hora).isAfter(T(java.time.LocalDateTime).now())}"
+                 th:href="@{/citas/editar/{id}(id=${c.id})}"
+                 class="btn btn-sm btn-outline-warning me-1">
+                Editar
+              </a>
+              <a th:if="${T(java.time.LocalDateTime).of(c.fecha, c.hora).isAfter(T(java.time.LocalDateTime).now())}"
+                 th:href="@{/citas/cancelar/{id}(id=${c.id})}"
+                 class="btn btn-sm btn-outline-danger">
+                Cancelar
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div th:if="${#lists.isEmpty(lista)}" class="text-center p-4 text-muted">
+        No se encontraron citas con esos filtros.
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
